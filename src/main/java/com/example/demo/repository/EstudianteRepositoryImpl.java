@@ -18,19 +18,19 @@ public class EstudianteRepositoryImpl implements IEstudianteRepository {
 	
 	@Override
 	public void insertar(Estudiante estudiante) {
-		// TODO Auto-generated method stub
+		
 		this.entityManager.persist(estudiante);
 	}
 
 	@Override
 	public void actualizar(Estudiante estudiante) {
-		// TODO Auto-generated method stub
+	
 		this.entityManager.merge(estudiante);
 	}
 
 	@Override
 	public void actualizarParcial(String apellido, String nombre, Integer id) {
-		// TODO Auto-generated method stub
+
 		Query query=this.entityManager
 				.createQuery("UPDATE Estudiante e SET e.nombre =:valor1, e.apellido =:valor2 WHERE e.id =: valor3");
 		query.setParameter("valor1", nombre);
@@ -43,13 +43,13 @@ public class EstudianteRepositoryImpl implements IEstudianteRepository {
 
 	@Override
 	public Estudiante seleccionar(Integer id) {
-		// TODO Auto-generated method stub
+		
 		return this.entityManager.find(Estudiante.class,id);
 	}
 
 	@Override
 	public void eliminar(Integer id) {
-		// TODO Auto-generated method stub
+	
 		this.entityManager.remove(this.seleccionar(id));
 	}
 
