@@ -14,7 +14,6 @@ import jakarta.persistence.Table;
 @Table(name="estudiante")
 public class Estudiante {
 	
-	
 
 	@Id
 	@GeneratedValue(generator="seq_estudiante", strategy=GenerationType.SEQUENCE)
