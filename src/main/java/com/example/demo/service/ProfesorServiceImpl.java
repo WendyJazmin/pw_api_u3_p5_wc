@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +55,12 @@ public class ProfesorServiceImpl implements IProfesorService{
 	public List<Profesor> buscarTodos(String titulo) {
 		// TODO Auto-generated method stub
 		return this.profesorRepository.buscarTodos(titulo);
+	}
+
+	@Override
+	public List<Profesor> buscarPorSalario(BigDecimal salario) {
+		// TODO Auto-generated method stub
+		return this.profesorRepository.buscarPorSalario(salario);
 	}
 
 }

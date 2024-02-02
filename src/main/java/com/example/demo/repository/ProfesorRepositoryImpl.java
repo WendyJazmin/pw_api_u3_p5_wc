@@ -1,5 +1,6 @@
 package com.example.demo.repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
@@ -70,6 +71,13 @@ public class ProfesorRepositoryImpl implements IProfesorRepository{
 	public List<Profesor> buscarTodos(String titulo) {
 		TypedQuery<Profesor> myQuery = this.entityManager.createQuery("SELECT p FROM Profesor p WHERE p.titulo_academico=:variable", Profesor.class);
 		myQuery.setParameter("variable", titulo);
+		return myQuery.getResultList();
+	}
+
+	@Override
+	public List<Profesor> buscarPorSalario(BigDecimal salario) {
+		TypedQuery<Profesor> myQuery = this.entityManager.createQuery("SELECT p FROM Profesor p WHERE p.salario=:variable", Profesor.class);
+		myQuery.setParameter("variable", salario);
 		return myQuery.getResultList();
 	}
 

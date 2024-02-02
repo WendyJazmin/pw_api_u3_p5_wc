@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +52,12 @@ public class ProfesorControllerRestFul {
       return this.profesorService.buscarTodos(titulo);
   }
 
+  
+  @GetMapping(path="/buscarPorSalario")
+  public List<Profesor> buscarPorSalario(@RequestParam BigDecimal salario){
+     
+      return this.profesorService.buscarPorSalario(salario);
+  }
   @PostMapping(path="/guardar")
   public void guardar(@RequestBody Profesor profesor) {
       this.profesorService.guardar(profesor);

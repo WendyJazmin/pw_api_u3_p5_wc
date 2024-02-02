@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.example.demo.repository.modelo.Profesor;
@@ -18,6 +19,8 @@ public interface IProfesorService {
 	public List<Profesor> buscarMaterias(Integer materias);
 	
 	public List<Profesor> buscarTodos(String titulo);
+	
+	public List<Profesor> buscarPorSalario(BigDecimal salario);
 	public void borrar(Integer id);
 
 }

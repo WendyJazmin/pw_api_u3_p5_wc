@@ -38,36 +38,40 @@ public class EstudianteControllerRestFul {
     //GET
     //http://localhost:8080/API/v1.0/Matricula/estudiantes/buscar
     //solo las get se pueden consumir desde el navegador
-    @GetMapping(path="/buscar/{id}")
+    @GetMapping(path="/{id}")
     public Estudiante buscar(@PathVariable Integer id){
-       
         return this.estudianteService.buscar(id);
     }
 
-    @GetMapping(path="/consultarTodos")
-    public List<Estudiante> consultarTodos(@RequestParam String genero){
+    //CONSULTANDO TODOS LOS ESTUDIANTES
+    //http://localhost:8080/API/v1.0/Matricula/estudiantes GET
+    @GetMapping//el consultar todos no necesita un path
+    public List<Estudiante> consultarTodos(@RequestParam (required=false, defaultValue="masculino") String genero){
        
         return this.estudianteService.buscarTodos(genero);
     }
 
-    @PostMapping(path="/guardar")
+    
+    @PostMapping
     public void guardar(@RequestBody Estudiante estudiante) {
         this.estudianteService.guardar(estudiante);
     }
 
-    @PutMapping(path="/actualizar")
-    public void actualizar(@RequestBody Estudiante estudiante) {
-        this.estudianteService.actualizar(estudiante);
+    @PutMapping(path="/{id}")
+    public void actualizar(@RequestBody Estudiante estudiante, @PathVariable Integer id) {
+        estudiante.setId(id);
+    	this.estudianteService.actualizar(estudiante);
     }
     
-    @PatchMapping(path="/actualizarParcial")
-    public void actualizarParcial(@RequestBody Estudiante estudiante){
-        this.estudianteService.actualizarParcial(estudiante.getApellido(), estudiante.getNombre(), estudiante.getId());
+    //http://localhost:8080/API/v1.0/Matricula/estudiantes/actualizarParcial
+    @PatchMapping(path="/{id}")
+    public void actualizarParcial(@RequestBody Estudiante estudiante,  @PathVariable Integer id){
+        this.estudianteService.actualizarParcial(estudiante.getApellido(), estudiante.getNombre(), id);
 
     }
 
-
-    @DeleteMapping(path="/borrar/{id}")
+    
+    @DeleteMapping(path="/{id}")
     public void borrar(@PathVariable Integer id){
         this.estudianteService.borrar(id);
     }
