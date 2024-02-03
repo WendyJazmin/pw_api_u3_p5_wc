@@ -32,50 +32,53 @@ public class ProfesorControllerRestFul {
  //Path Variable
  
   //GET
-  //http://localhost:8080/API/v1.0/Matricula/estudiantes/buscar
+  //http://localhost:8080/API/v1.0/Matricula/profesores/GET
   //solo las get se pueden consumir desde el navegador
-  @GetMapping(path="/buscar/{id}")
+  @GetMapping(path="/{id}")
   public Profesor buscar(@PathVariable Integer id){
      
       return this.profesorService.buscar(id);
   }
   
-  @GetMapping(path="/buscarMaterias/{materias}")
-  public List<Profesor> buscarMaterias(@PathVariable Integer materias){
-     
-      return this.profesorService.buscarMaterias(materias);
-  }
 
-  @GetMapping(path="/consultarTodos")
-  public List<Profesor> consultarTodos(@RequestParam String titulo){
-     
-      return this.profesorService.buscarTodos(titulo);
-  }
+  //Bucar por parametros
+@GetMapping
+public List<Profesor> buscarPorParametros(@RequestParam(required = false) Integer materias,
+                                    @RequestParam(required = false) String titulo,
+                                    @RequestParam(required = false) BigDecimal salario) {
+	  if (materias != null) {
+	        return this.profesorService.buscarMaterias(materias);
+	    } else if(titulo !=null) {
+	    	//System.out.println("Buscando profesores con el título: " + titulo);
+	        return this.profesorService.buscarTodos(titulo);
+	    }else {
+	    	return this.profesorService.buscarPorSalario(salario);
+	    }
+}
 
-  
-  @GetMapping(path="/buscarPorSalario")
-  public List<Profesor> buscarPorSalario(@RequestParam BigDecimal salario){
-     
-      return this.profesorService.buscarPorSalario(salario);
-  }
-  @PostMapping(path="/guardar")
+
+  //GUARDAR
+  @PostMapping
   public void guardar(@RequestBody Profesor profesor) {
       this.profesorService.guardar(profesor);
   }
 
-  @PutMapping(path="/actualizar")
-  public void actualizar(@RequestBody Profesor profesor) {
+  //Actualizar objeto completo : no se coloca el id
+  @PutMapping(path="/{id}")
+  public void actualizar(@RequestBody Profesor profesor,@PathVariable Integer id) {
+	  profesor.setId(id);
       this.profesorService.actualizar(profesor);
   }
   
-  @PatchMapping(path="/actualizarParcial")
-  public void actualizarParcial(@RequestBody Profesor profesor){
-      this.profesorService.actualizarParcial(profesor.getApellido(), profesor.getNombre(), profesor.getId());
+  //ACTUALIZACIÓN PARCIAL : no se coloca el id
+  @PatchMapping(path="/{id}")
+  public void actualizarParcial(@RequestBody Profesor profesor, @PathVariable Integer id){
+      this.profesorService.actualizarParcial(profesor.getApellido(), profesor.getNombre(), id);
 
   }
 
 
-  @DeleteMapping(path="/borrar/{id}")
+  @DeleteMapping(path="/{id}")
   public void borrar(@PathVariable Integer id){
       this.profesorService.borrar(id);
   }
