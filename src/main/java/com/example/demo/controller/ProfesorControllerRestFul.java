@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -14,12 +15,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.example.demo.repository.modelo.Estudiante;
 import com.example.demo.repository.modelo.Profesor;
 
 import com.example.demo.service.IProfesorService;
 
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 @RestController//Servicio
 @RequestMapping(path="/profesores")
 public class ProfesorControllerRestFul {
@@ -34,15 +36,16 @@ public class ProfesorControllerRestFul {
   //GET
   //http://localhost:8080/API/v1.0/Matricula/profesores/GET
   //solo las get se pueden consumir desde el navegador
-  @GetMapping(path="/{id}")
-  public Profesor buscar(@PathVariable Integer id){
-     
-      return this.profesorService.buscar(id);
+  @GetMapping(path="/{id}",produces = { "application/json", "application/xml" })
+  public ResponseEntity<Profesor> buscar(@PathVariable Integer id){
+	  
+	  Profesor profesor = this.profesorService.buscar(id);
+	  return ResponseEntity.status(241).body(profesor);
   }
   
 
   //Bucar por parametros
-@GetMapping
+@GetMapping(produces=MediaType.APPLICATION_JSON_VALUE)
 public List<Profesor> buscarPorParametros(@RequestParam(required = false) Integer materias,
                                     @RequestParam(required = false) String titulo,
                                     @RequestParam(required = false) BigDecimal salario) {
@@ -58,20 +61,20 @@ public List<Profesor> buscarPorParametros(@RequestParam(required = false) Intege
 
 
   //GUARDAR
-  @PostMapping
+  @PostMapping(consumes =MediaType.APPLICATION_XML_VALUE)
   public void guardar(@RequestBody Profesor profesor) {
       this.profesorService.guardar(profesor);
   }
 
   //Actualizar objeto completo : no se coloca el id
-  @PutMapping(path="/{id}")
+  @PutMapping(path="/{id}", consumes = MediaType.APPLICATION_XML_VALUE)
   public void actualizar(@RequestBody Profesor profesor,@PathVariable Integer id) {
 	  profesor.setId(id);
       this.profesorService.actualizar(profesor);
   }
   
   //ACTUALIZACIÓN PARCIAL : no se coloca el id
-  @PatchMapping(path="/{id}")
+  @PatchMapping(path="/{id}",consumes = MediaType.APPLICATION_JSON_VALUE)
   public void actualizarParcial(@RequestBody Profesor profesor, @PathVariable Integer id){
       this.profesorService.actualizarParcial(profesor.getApellido(), profesor.getNombre(), id);
 
