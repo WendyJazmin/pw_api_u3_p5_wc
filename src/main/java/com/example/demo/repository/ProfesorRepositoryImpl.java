@@ -69,6 +69,8 @@ public class ProfesorRepositoryImpl implements IProfesorRepository{
 
 	@Override
 	public List<Profesor> buscarTodos(String titulo) {
+		
+		System.out.println("Buscando profesores con el título: " + titulo);
 		TypedQuery<Profesor> myQuery = this.entityManager.createQuery("SELECT p FROM Profesor p WHERE p.titulo_academico=:variable", Profesor.class);
 		myQuery.setParameter("variable", titulo);
 		return myQuery.getResultList();
