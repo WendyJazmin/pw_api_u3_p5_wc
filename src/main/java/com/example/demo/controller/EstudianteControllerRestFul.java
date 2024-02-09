@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,6 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.repository.modelo.Estudiante;
 import com.example.demo.service.IEstudianteService;
+import com.example.demo.service.IMateriaService;
+import com.example.demo.service.to.EstudianteTO;
+import com.example.demo.service.to.MateriaTO;
+
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -31,6 +36,9 @@ public class EstudianteControllerRestFul {
 
     @Autowired
     private IEstudianteService estudianteService;
+    
+    @Autowired
+    private IMateriaService materiaService;
  
     //las capacidades vienen representadas por métdos de una clase
  
@@ -51,7 +59,7 @@ public class EstudianteControllerRestFul {
 
     //CONSULTANDO TODOS LOS ESTUDIANTES
     //http://localhost:8080/API/v1.0/Matricula/estudiantes GET
-    @GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
+    @GetMapping(path="/tmp",produces = MediaType.APPLICATION_XML_VALUE)
 	public ResponseEntity<List<Estudiante>> consultarTodos(@RequestParam(required = false, defaultValue = "masculino") String genero) {
 		List<Estudiante> lista = this.estudianteService.buscarTodos(genero);
 		HttpHeaders cabeceras = new HttpHeaders();
@@ -59,7 +67,22 @@ public class EstudianteControllerRestFul {
 		cabeceras.add("mensaje_info", "El sistema va estar en mantenimiento el fin de semana.");
 		return new ResponseEntity<>(lista, cabeceras, 242); //todo lo que no es de ka data principal va en al cabecera
         }
+    
+    ///-----------------------------
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<EstudianteTO>> consultarTodosHateoas() {
+		List<EstudianteTO> lista = this.estudianteService.buscarTodosTO();
+		
+		return ResponseEntity.status(HttpStatus.OK).body(lista); //todo lo que no es de ka data principal va en al cabecera
+    }
 
+    
+    //http://localhost:8082/API/v1.0/Matricula/estudiantes/1/materias  GET
+    @GetMapping(path="/{id}/materias")
+   public ResponseEntity<List<MateriaTO>> consultarMateriasPorId(@PathVariable Integer id){
+    	List<MateriaTO> lista = this.materiaService.buscarPorIdEstudiante(id);
+    	return ResponseEntity.status(HttpStatus.OK).body(lista);
+   }
     
     @PostMapping(consumes =MediaType.APPLICATION_XML_VALUE)
     public void guardar(@RequestBody Estudiante estudiante) {
@@ -86,4 +109,5 @@ public class EstudianteControllerRestFul {
     }
 	
 
+ 
 }
