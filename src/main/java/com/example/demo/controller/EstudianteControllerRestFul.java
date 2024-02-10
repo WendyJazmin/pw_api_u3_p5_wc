@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Link;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -25,6 +26,9 @@ import com.example.demo.service.to.MateriaTO;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+//METODOS ESTÁTICOS
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 //API: un api siempre viene determinado por un proyecto
 
@@ -49,11 +53,20 @@ public class EstudianteControllerRestFul {
     //http://localhost:8080/API/v1.0/Matricula/estudiantes
     //solo las get se pueden consumir desde el navegador
     @GetMapping(path="/{id}",produces = "application/json")//en produces poner el tipo de contenido que se produce
-    public ResponseEntity<Estudiante> buscar(@PathVariable Integer id){
+    public ResponseEntity<EstudianteTO> buscar(@PathVariable Integer id){
     	//240: peticiones satisfactorias
     	//240: recurso estudiante encontrado satisfactoriamente
     	//Contrato de la API (documento pdf, swagger.io -> para documentar las APIS)
-        Estudiante estu = this.estudianteService.buscar(id);
+        EstudianteTO estu = this.estudianteService.buscarto(id);
+        
+        Link link= linkTo(methodOn(EstudianteControllerRestFul.class).consultarMateriasPorId(estu.getId()))
+				.withRel("materias");//se coloca la capacidad donde se encuentra la clase
+		estu.add(link);
+        
+        Link link2= linkTo(methodOn(EstudianteControllerRestFul.class).consultarMateriasPorId(estu.getId()))
+				.withSelfRel();
+        estu.add(link2);
+        
     	return ResponseEntity.status(241).body(estu);
     }
 
@@ -68,10 +81,18 @@ public class EstudianteControllerRestFul {
 		return new ResponseEntity<>(lista, cabeceras, 242); //todo lo que no es de ka data principal va en al cabecera
         }
     
-    ///-----------------------------
+    
+    ///--------------------------------------------------------
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<EstudianteTO>> consultarTodosHateoas() {
 		List<EstudianteTO> lista = this.estudianteService.buscarTodosTO();
+		
+		
+		for(EstudianteTO est: lista) {
+			Link link= linkTo(methodOn(EstudianteControllerRestFul.class).consultarMateriasPorId(est.getId()))
+					.withRel("materias");//se coloca la capacidad donde se encuentra la clase
+			est.add(link);
+		}
 		
 		return ResponseEntity.status(HttpStatus.OK).body(lista); //todo lo que no es de ka data principal va en al cabecera
     }
