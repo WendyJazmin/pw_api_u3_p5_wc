@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.repository.modelo.Estudiante;
 import com.example.demo.service.IEstudianteService;
 import com.example.demo.service.IMateriaService;
+import com.example.demo.service.to.EstudianteLigeroTO;
 import com.example.demo.service.to.EstudianteTO;
 import com.example.demo.service.to.MateriaTO;
 
@@ -97,6 +98,20 @@ public class EstudianteControllerRestFul {
 		return ResponseEntity.status(HttpStatus.OK).body(lista); //todo lo que no es de ka data principal va en al cabecera
     }
 
+    ///tarea10-----------------------
+    @GetMapping(path="/estudianteLigero",produces = MediaType.APPLICATION_JSON_VALUE)
+   	public ResponseEntity<List<EstudianteLigeroTO>> consultarTodosLigeroHateoas() {
+   		List<EstudianteLigeroTO> lista = this.estudianteService.buscarTodosLigeroTO();
+   		
+   		
+   		for(EstudianteLigeroTO est: lista) {
+   			Link link= linkTo(methodOn(EstudianteControllerRestFul.class).consultarMateriasPorId(est.getId()))
+   					.withSelfRel();//se coloca la capacidad donde se encuentra la clase
+   			est.add(link);
+   		}
+   		
+   		return ResponseEntity.status(HttpStatus.OK).body(lista); //todo lo que no es de ka data principal va en al cabecera
+       }
     
     //http://localhost:8082/API/v1.0/Matricula/estudiantes/1/materias  GET
     @GetMapping(path="/{id}/materias")

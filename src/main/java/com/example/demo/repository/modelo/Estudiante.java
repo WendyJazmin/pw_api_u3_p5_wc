@@ -38,6 +38,21 @@ public class Estudiante {
 	
 	@Column(name="estu_fecha_nacimiento")
 	private LocalDateTime fechaNacimiento;
+	
+	@Column(name="estu_correo_electronico")
+	private String correoElectronico;
+	
+	@Column(name="estu_numero_telefono")
+    private String numeroTelefono;
+    
+	@Column(name="estu_direccion")
+    private String direccion;
+    
+	@Column(name="estu_anio_ingreso")
+    private Integer anioIngreso;
+    
+	@Column(name="estu_carrera")
+    private String carrera;
 
 	@OneToMany(mappedBy = "estudiante")
 	private List<Materia> materias;
@@ -96,6 +111,48 @@ public class Estudiante {
 	public void setMaterias(List<Materia> materias) {
 		this.materias = materias;
 	}
+
+	public String getCorreoElectronico() {
+		return correoElectronico;
+	}
+
+	public void setCorreoElectronico(String correoElectronico) {
+		this.correoElectronico = correoElectronico;
+	}
+
+	public String getNumeroTelefono() {
+		return numeroTelefono;
+	}
+
+	public void setNumeroTelefono(String numeroTelefono) {
+		this.numeroTelefono = numeroTelefono;
+	}
+
+	public String getDireccion() {
+		return direccion;
+	}
+
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
+	}
+
+	public Integer getAnioIngreso() {
+		return anioIngreso;
+	}
+
+	public void setAnioIngreso(Integer anioIngreso) {
+		this.anioIngreso = anioIngreso;
+	}
+
+	public String getCarrera() {
+		return carrera;
+	}
+
+	public void setCarrera(String carrera) {
+		this.carrera = carrera;
+	}
+	
+	
 	
 	
 	

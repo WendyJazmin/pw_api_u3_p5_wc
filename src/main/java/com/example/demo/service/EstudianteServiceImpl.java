@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.repository.IEstudianteRepository;
 import com.example.demo.repository.modelo.Estudiante;
+import com.example.demo.service.to.EstudianteLigeroTO;
 import com.example.demo.service.to.EstudianteTO;
 
 @Service
@@ -66,18 +67,46 @@ public class EstudianteServiceImpl implements IEstudianteService{
 
 	private EstudianteTO convertir(Estudiante est) {
 		EstudianteTO estuTO = new EstudianteTO();
+		
 		estuTO.setApellido(est.getApellido());
 		estuTO.setFechaNacimiento(est.getFechaNacimiento());
 		estuTO.setGenero(est.getGenero());
 		estuTO.setId(est.getId());
 		estuTO.setNombre(est.getNombre());
+		estuTO.setAnioIngreso(est.getAnioIngreso());
+		estuTO.setCarrera(est.getCarrera());
+		estuTO.setCorreoElectronico(est.getCorreoElectronico());
+		estuTO.setDireccion(est.getDireccion());
+		estuTO.setNumeroTelefono(est.getNumeroTelefono());
 		
 		return estuTO;
 	}
 
-	@Override
+	@Override 
 	public EstudianteTO buscarto(Integer id) {
 		// TODO Auto-generated method stub
 		return this.convertir(this.estudianteRepository.seleccionar(id));
+	}
+
+	
+	private  EstudianteLigeroTO convertirEstudianteLigero(Estudiante estudiante) {
+		
+		EstudianteLigeroTO estudianteLigero = new EstudianteLigeroTO();
+		estudianteLigero.setId(estudiante.getId());
+		estudianteLigero.setNombre(estudiante.getNombre());;
+		
+		
+		return estudianteLigero;
+	}
+	
+	@Override
+	public List<EstudianteLigeroTO> buscarTodosLigeroTO() {
+		List<Estudiante> lista = this.estudianteRepository.buscarTodos("masculino");
+		List<EstudianteLigeroTO> listaFinal = new ArrayList<>();
+		
+		for(Estudiante est: lista) {
+			listaFinal.add(this.convertirEstudianteLigero(est));
+		}
+		return listaFinal;
 	}
 }

@@ -25,6 +25,15 @@ public class EstudianteTO extends RepresentationModel<EstudianteTO> implements S
 	
 	private LocalDateTime fechaNacimiento;
 	
+	private String correoElectronico;
+	
+    private String numeroTelefono;
+    
+    private String direccion;
+    
+    private Integer anioIngreso;
+    
+    private String carrera;
 
 	//SET Y GET
 	public Integer getId() {
@@ -66,6 +75,47 @@ public class EstudianteTO extends RepresentationModel<EstudianteTO> implements S
 	public void setFechaNacimiento(LocalDateTime fechaNacimiento) {
 		this.fechaNacimiento = fechaNacimiento;
 	}
+
+	public String getCorreoElectronico() {
+		return correoElectronico;
+	}
+
+	public void setCorreoElectronico(String correoElectronico) {
+		this.correoElectronico = correoElectronico;
+	}
+
+	public String getNumeroTelefono() {
+		return numeroTelefono;
+	}
+
+	public void setNumeroTelefono(String numeroTelefono) {
+		this.numeroTelefono = numeroTelefono;
+	}
+
+	public String getDireccion() {
+		return direccion;
+	}
+
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
+	}
+
+	public Integer getAnioIngreso() {
+		return anioIngreso;
+	}
+
+	public void setAnioIngreso(Integer anioIngreso) {
+		this.anioIngreso = anioIngreso;
+	}
+
+	public String getCarrera() {
+		return carrera;
+	}
+
+	public void setCarrera(String carrera) {
+		this.carrera = carrera;
+	}
+	
 	
 	
 }
