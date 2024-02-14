@@ -18,15 +18,33 @@ public class EstudianteServiceImpl implements IEstudianteService{
 	private IEstudianteRepository estudianteRepository;
 	
 	@Override
-	public void guardar(Estudiante estudiante) {
+	public void guardar(EstudianteTO estudiante) {
+		Estudiante estu = this.convertirTOaEstudiante(estudiante);
 		
-		this.estudianteRepository.insertar(estudiante);
+		this.estudianteRepository.insertar(estu);
+	}
+	
+	private Estudiante convertirTOaEstudiante(EstudianteTO estudianteTO) {
+		Estudiante estu = new Estudiante();
+		estu.setId(estudianteTO.getId());
+		estu.setNombre(estudianteTO.getNombre());
+		estu.setApellido(estudianteTO.getApellido());
+		estu.setGenero(estudianteTO.getGenero());
+		estu.setFechaNacimiento(estudianteTO.getFechaNacimiento());
+		estu.setAnioIngreso(estudianteTO.getAnioIngreso());
+		estu.setDireccion(estudianteTO.getDireccion());
+		estu.setCorreoElectronico(estudianteTO.getCorreoElectronico());
+		estu.setNumeroTelefono(estudianteTO.getNumeroTelefono());
+		estu.setCarrera(estudianteTO.getCarrera());
+		return estu;
 	}
 
+
 	@Override
-	public void actualizar(Estudiante estudiante) {
+	public void actualizar(EstudianteTO estudiante) {
+		Estudiante estu = this.convertirTOaEstudiante(estudiante);
 		
-		this.estudianteRepository.actualizar(estudiante);
+		this.estudianteRepository.actualizar(estu);
 	}
 
 	@Override

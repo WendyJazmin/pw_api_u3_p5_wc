@@ -120,20 +120,20 @@ public class EstudianteControllerRestFul {
     	return ResponseEntity.status(HttpStatus.OK).body(lista);
    }
     
-    @PostMapping(consumes =MediaType.APPLICATION_XML_VALUE)
-    public void guardar(@RequestBody Estudiante estudiante) {
+    @PostMapping(consumes =MediaType.APPLICATION_JSON_VALUE)
+    public void guardar(@RequestBody EstudianteTO estudiante) {
         this.estudianteService.guardar(estudiante);
     }
 
     @PutMapping(path="/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void actualizar(@RequestBody Estudiante estudiante, @PathVariable Integer id) {
+    public void actualizar(@RequestBody EstudianteTO estudiante, @PathVariable Integer id) {
         estudiante.setId(id);
     	this.estudianteService.actualizar(estudiante);
     }
     
     //http://localhost:8080/API/v1.0/Matricula/estudiantes/actualizarParcial
     @PatchMapping(path="/{id}", consumes = MediaType.APPLICATION_XML_VALUE)//SIEMPRE SE DEBE ESPECIFICAR EXPLICITAMENTE EL TIPO DE CONTENIDO QUE SE VA A MANEJAR, el consumes y el produces, siempre que la capacidad lo requiera
-    public void actualizarParcial(@RequestBody Estudiante estudiante,  @PathVariable Integer id){
+    public void actualizarParcial(@RequestBody EstudianteTO estudiante,  @PathVariable Integer id){
         this.estudianteService.actualizarParcial(estudiante.getApellido(), estudiante.getNombre(), id);
 
     }
