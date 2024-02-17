@@ -1,6 +1,7 @@
 package com.example.demo.service.to;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.springframework.hateoas.RepresentationModel;
@@ -23,7 +24,7 @@ public class EstudianteTO extends RepresentationModel<EstudianteTO> implements S
 	
 	private String genero;
 	
-	private LocalDateTime fechaNacimiento;
+	private LocalDate fechaNacimiento;
 	
 	private String correoElectronico;
 	
@@ -68,11 +69,11 @@ public class EstudianteTO extends RepresentationModel<EstudianteTO> implements S
 		this.genero = genero;
 	}
 
-	public LocalDateTime getFechaNacimiento() {
+	public LocalDate getFechaNacimiento() {
 		return fechaNacimiento;
 	}
 
-	public void setFechaNacimiento(LocalDateTime fechaNacimiento) {
+	public void setFechaNacimiento(LocalDate fechaNacimiento) {
 		this.fechaNacimiento = fechaNacimiento;
 	}
 

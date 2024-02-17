@@ -1,5 +1,6 @@
 package com.example.demo.repository.modelo;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -37,7 +38,8 @@ public class Estudiante {
 	private String genero;
 	
 	@Column(name="estu_fecha_nacimiento")
-	private LocalDateTime fechaNacimiento;
+	//private LocalDateTime fechaNacimiento;
+	private LocalDate fechaNacimiento;//LocalDate -> para solo ingressar la fecha, sin la hora parainsertar desde la pagina web
 	
 	@Column(name="estu_correo_electronico")
 	private String correoElectronico;
@@ -96,11 +98,12 @@ public class Estudiante {
 		this.genero = genero;
 	}
 
-	public LocalDateTime getFechaNacimiento() {
+
+	public LocalDate getFechaNacimiento() {
 		return fechaNacimiento;
 	}
 
-	public void setFechaNacimiento(LocalDateTime fechaNacimiento) {
+	public void setFechaNacimiento(LocalDate fechaNacimiento) {
 		this.fechaNacimiento = fechaNacimiento;
 	}
 

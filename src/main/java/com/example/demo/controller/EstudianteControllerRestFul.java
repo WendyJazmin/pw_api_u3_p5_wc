@@ -8,6 +8,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -37,6 +38,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RestController//Servicio
 //se tiene que crear una URL
 @RequestMapping(path="/estudiantes")
+@CrossOrigin//(value="http://localhost:8080")
 public class EstudianteControllerRestFul {
 
     @Autowired
@@ -51,7 +53,7 @@ public class EstudianteControllerRestFul {
 
    
     //GET
-    //http://localhost:8080/API/v1.0/Matricula/estudiantes
+    //http://localhost:8080/API/v1.0/Matricula/estudiantes/id
     //solo las get se pueden consumir desde el navegador
     @GetMapping(path="/{id}",produces = "application/json")//en produces poner el tipo de contenido que se produce
     public ResponseEntity<EstudianteTO> buscar(@PathVariable Integer id){
@@ -125,6 +127,7 @@ public class EstudianteControllerRestFul {
         this.estudianteService.guardar(estudiante);
     }
 
+    
     @PutMapping(path="/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void actualizar(@RequestBody EstudianteTO estudiante, @PathVariable Integer id) {
         estudiante.setId(id);
@@ -139,7 +142,7 @@ public class EstudianteControllerRestFul {
     }
 
     
-    @DeleteMapping(path="/{id}", consumes = MediaType.APPLICATION_XML_VALUE)
+    @DeleteMapping(path="/{id}")
     public void borrar(@PathVariable Integer id){
         this.estudianteService.borrar(id);
     }
