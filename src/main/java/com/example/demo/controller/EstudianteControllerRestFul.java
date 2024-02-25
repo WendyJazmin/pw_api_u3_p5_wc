@@ -52,7 +52,7 @@ public class EstudianteControllerRestFul {
    //Path Variable
 
    
-    //GET
+    //GET : BUSCAR ESTUDIANTES POR ID
     //http://localhost:8080/API/v1.0/Matricula/estudiantes/id
     //solo las get se pueden consumir desde el navegador
     @GetMapping(path="/{id}",produces = "application/json")//en produces poner el tipo de contenido que se produce
@@ -66,11 +66,13 @@ public class EstudianteControllerRestFul {
 				.withRel("materias");//se coloca la capacidad donde se encuentra la clase
 		estu.add(link);
         
-        Link link2= linkTo(methodOn(EstudianteControllerRestFul.class).consultarMateriasPorId(estu.getId()))
+		//se redirige así mismo
+        Link link2= linkTo(methodOn(EstudianteControllerRestFul.class).buscar(estu.getId()))
 				.withSelfRel();
         estu.add(link2);
         
-    	return ResponseEntity.status(241).body(estu);
+    	//return ResponseEntity.status(241).body(estu);
+        return ResponseEntity.status(HttpStatus.OK).body(estu);
     }
 
     //CONSULTANDO TODOS LOS ESTUDIANTES
@@ -93,7 +95,7 @@ public class EstudianteControllerRestFul {
 		
 		for(EstudianteTO est: lista) {
 			Link link= linkTo(methodOn(EstudianteControllerRestFul.class).consultarMateriasPorId(est.getId()))
-					.withRel("materias");//se coloca la capacidad donde se encuentra la clase
+					.withRel("Materias");//se coloca la capacidad donde se encuentra la clase
 			est.add(link);
 		}
 		
